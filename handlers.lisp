@@ -46,6 +46,9 @@
       ("/blog/([A-Za-z0-9\-]+)/?" str)
     only))
 
+(defun retrieve-blog (blog-name)
+  (with-db db
+    (clsql:select 'blog-entry :database db)))
 (defun handlers (&rest handlers)
   (dolist (handler handlers)
     (push handler hunchentoot:*dispatch-table*)))
