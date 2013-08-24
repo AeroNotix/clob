@@ -3,5 +3,6 @@
   :description "Small blogging engine."
   :components
   ((:file "packages")
-   (:file "handlers"    :depends-on ("packages")))
+   (:file "connection-details" :depends-on ("packages"))
+   (:file "handlers"           :depends-on ("packages" "connection-details")))
    :depends-on (#:hunchentoot))
