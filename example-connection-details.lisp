@@ -1,7 +1,4 @@
 (in-package :clob-connection-details)
 
-(defparameter *host* "host")
-(defparameter *user* "user")
-(defparameter *password* "password")
-(defparameter *table* "table")
+(defparameter *connection-details* '("host" "table" "user" "password"))
 
