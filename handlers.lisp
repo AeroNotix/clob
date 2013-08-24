@@ -21,5 +21,6 @@
     (push handler hunchentoot:*dispatch-table*)))
 
 (handlers
- (hunchentoot:create-prefix-dispatcher "/blog/" #'(lambda () "<html><h3>Lolwut</h3></html>")))
- (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]" 'blog-entry))
+ (hunchentoot:create-regex-dispatcher "/blog/$?" #'(lambda () "<html><h3>B</h3></html>"))
+ (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]/?$" 'blog-entry))
+
