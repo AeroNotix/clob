@@ -2,4 +2,4 @@
 
 (defpackage #:clob-handlers
   (:use #:cl)
-  (:export :start))
+  (:export :start :handlers))

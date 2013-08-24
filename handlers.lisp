@@ -7,8 +7,9 @@
   (setf (hunchentoot:content-type*) "text/html")
   "<html><h3>Not implemented</h3></html>")
 
-(hunchentoot:define-easy-handler (blog :uri "/blog/") ()
-  (setf (hunchentoot:content-type*) "text/html")
-  "<html><h3>Not implemented</h3></html>")
+(defun handlers (&rest handlers)
+  (dolist (handler handlers)
+    (push handler hunchentoot:*dispatch-table*)))
 
-(hunchentoot:define-easy-handler (bloglost :uri "/blog/:blogname/"
+(handlers
+ (hunchentoot:create-prefix-dispatcher "/blog/" #'(lambda () "<html><h3>Lolwut</h3></html>")))
