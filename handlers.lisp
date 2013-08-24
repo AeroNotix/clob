@@ -7,3 +7,8 @@
 (hunchentoot:define-easy-handler (index :uri "/") ()
   (setf (hunchentoot:content-type*) "text/html")
   "<html><h3>Not implemented</h3></html>")
+
+(hunchentoot:define-easy-handler (blog :uri "/blog/") ()
+  (setf (hunchentoot:content-type*) "text/html")
+  "<html><h3>Not implemented</h3></html>")
+
