@@ -5,4 +5,4 @@
   ((:file "packages")
    (:file "connection-details" :depends-on ("packages"))
    (:file "handlers"           :depends-on ("packages" "connection-details")))
-   :depends-on (#:hunchentoot))
+   :depends-on (#:hunchentoot #:clsql))
