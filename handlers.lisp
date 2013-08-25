@@ -47,10 +47,10 @@
     only))
 
 (defun retrieve-blog (blog-name)
-  (with-db db
-    (clsql:select '|blog-entry| :database db
-		  :where [= [slot-value '|blog-entry| 'blog-title]
-		            blog-name])))
+  (first (first (with-db db
+	   (clsql:select '|blog-entry| :database db
+			 :where [= [slot-value '|blog-entry| 'blog-title]
+			 blog-name])))))
 (defun handlers (&rest handlers)
   (dolist (handler handlers)
     (push handler hunchentoot:*dispatch-table*)))
