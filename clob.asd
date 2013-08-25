@@ -4,6 +4,7 @@
   :components
   ((:file "packages")
    (:file "connection-details" :depends-on ("packages"))
+   (:file "templ"              :depends-on ("packages"))
    (:file "handlers"           :depends-on ("packages" "connection-details"))
    (:module :templates)
    (:module :static))
