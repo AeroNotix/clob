@@ -53,6 +53,14 @@
 	   (clsql:select '|blog-entry| :database db
 			 :where [= [slot-value '|blog-entry| 'blog-title]
 			 blog-name])))))
+
+(defun blog-entry ()
+  (let* ((blog-name (extract-blog-title (hunchentoot:request-uri* hunchentoot:*request*)))
+	 (blog (retrieve-blog blog-name))
+	 (string-stream (with-slots (blog-title blog-post) blog
+			  (clob-templates:blog :blog_title blog-title :blog_post blog-post))))
+    (get-output-stream-string string-stream)))
+
 (defun handlers (&rest handlers)
   (dolist (handler handlers)
     (push handler hunchentoot:*dispatch-table*)))
