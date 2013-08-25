@@ -51,7 +51,7 @@
 (defun retrieve-blog (blog-name)
   (first (first (with-db db
 	   (clsql:select '|blog-entry| :database db
-			 :where [= [slot-value '|blog-entry| 'blog-title]
+			 :where [= [slot-value '|blog-entry| 'blog-url]
 			 blog-name])))))
 
 (defun blog-entry ()
