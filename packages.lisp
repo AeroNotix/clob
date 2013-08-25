@@ -11,4 +11,4 @@
 
 (defpackage #:clob-handlers
   (:use #:cl #:clob-connection-details)
-  (:export :start :handlers))
+  (:export :start :handlers :retrieve-blog))
