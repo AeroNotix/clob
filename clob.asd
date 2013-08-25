@@ -8,4 +8,4 @@
    (:file "handlers"           :depends-on ("packages" "connection-details"))
    (:module :templates)
    (:module :static))
-   :depends-on (#:hunchentoot #:clsql))
+   :depends-on (#:hunchentoot #:clsql #:djula))
