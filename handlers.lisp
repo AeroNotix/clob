@@ -34,7 +34,9 @@
     :initarg :post)))
 
 (defmacro with-db (database &body body)
-  `(clsql:with-database (,database *connection-details* :database-type *database-type*)
+  `(clsql:with-database (,database *connection-details*
+				   :database-type *database-type*
+				   :pool t :if-exists :use)
      ,@body))
 
 (hunchentoot:define-easy-handler (index :uri "/") ()
