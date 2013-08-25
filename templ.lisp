@@ -6,7 +6,7 @@
 				 (asdf:find-component (asdf:find-system :clob) "templates")))
 	    (path (format nil "~a" (merge-pathnames template-directory ,template-name)))
 	    (string-stream (make-string-output-stream)))
-       (djula:render-template* path string-stream :STATIC_URL "/static/")
+       (apply #'djula:render-template* path string-stream :STATIC_URL "/static/" data)
        string-stream)))
 
 (deftemplate blog "blog.html")
