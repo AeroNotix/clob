@@ -43,6 +43,9 @@
   (setf (hunchentoot:content-type*) "text/html")
   "<html><h3>Not implemented</h3></html>")
 
+(defun static-file-handler (where &key (uri "/static/") (content-type nil))
+  (hunchentoot:create-folder-dispatcher-and-handler uri where content-type))
+
 (defun extract-blog-title (str)
   (cl-ppcre:register-groups-bind (only)
       ("/blog/([A-Za-z0-9\-]+)/?" str)
@@ -68,5 +71,6 @@
 (handlers
  (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]+/?$" 'blog-entry)
  (hunchentoot:create-regex-dispatcher "/blog/?$" #'(lambda () "<html><h3>B</h3></html>")))
+ (static-file-handler "/home/xeno/dev/clob/static/"))
 
 (clsql:locally-disable-sql-reader-syntax)
