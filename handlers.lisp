@@ -92,8 +92,7 @@
 
 (defun about ()
   "Handler for /about"
-  (let ((blog (render-blog (retrieve-blog "about"))))
-    blog))
+  (let ((blog (render-blog (retrieve-blog "about")))) blog))
 
 (defun handlers (&rest handlers)
   "Helper method to push N handlers into the dispatch table with a
