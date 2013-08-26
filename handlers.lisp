@@ -94,6 +94,10 @@
   "Handler for /about"
   (let ((blog (render-blog (retrieve-blog "about")))) blog))
 
+(defun index ()
+  "Handler for /"
+  (get-output-stream-string (clob-templates:index)))
+
 (defun handlers (&rest handlers)
   "Helper method to push N handlers into the dispatch table with a
   nicer syntax than the built-in one."
@@ -104,6 +108,7 @@
  (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]+/?$" 'blog-entry)
  (hunchentoot:create-regex-dispatcher "/about/?$" 'about)
  (hunchentoot:create-regex-dispatcher "/blog/?$" 'blog-list)
+ (hunchentoot:create-regex-dispatcher "/?$" 'index)
  (static-file-handler "/home/xeno/dev/clob/static/"))
 
 (clsql:locally-disable-sql-reader-syntax)
