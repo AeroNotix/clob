@@ -3,9 +3,14 @@
 (clsql:locally-enable-sql-reader-syntax)
 
 (defun start ()
+  "Starts the web application."
   (hunchentoot:start (make-instance 'hunchentoot:easy-acceptor :port 4242)))
 
 (clsql-sys:def-view-class |blog-entry| ()
+  "|blog-entry| represents a single entry in the blog database. We
+  unfortunately have to use |symbol| because of how cl-sql works: It
+  requires that symbols (note: no |) are uppercased field names in the
+  database, same goes for the table names."
   ((id
     :type integer
     :column |id|
@@ -34,6 +39,8 @@
     :initarg :post)))
 
 (defmacro with-db (database &body body)
+  "This macro helps interpolate forms into a blog which is sure to
+  contain a reference to a live database connection."
   `(clsql:with-database (,database *connection-details*
 				   :database-type *database-type*
 				   :pool t :if-exists :use)
@@ -47,31 +54,40 @@
   (hunchentoot:create-folder-dispatcher-and-handler uri where content-type))
 
 (defun extract-blog-title (str)
+  "When a request is made to '/blog/something/' we need to remove the
+  'something' part in order to be able to retrieve that entry and
+  serve it to the client. This is a function which does that."
   (cl-ppcre:register-groups-bind (only)
       ("/blog/([A-Za-z0-9\-]+)/?" str)
     only))
 
 (defun retrieve-blog (blog-name)
+  "Retrieves the blog-name from the database."
   (first (first (with-db db
 	   (clsql:select '|blog-entry| :database db
 			 :where [= [slot-value '|blog-entry| 'blog-url]
 			 blog-name])))))
 
 (defun render-blog (blog)
+  "Renders the blog by interpolating its fields into the template."
   (let ((string-stream (with-slots (blog-title blog-post) blog
                          (clob-templates:blog :blog_title blog-title :blog_post blog-post))))
   (get-output-stream-string string-stream)))
 
 (defun blog-entry ()
+  "Handler for /blog/something/"
   (let* ((blog-name (extract-blog-title (hunchentoot:request-uri* hunchentoot:*request*)))
          (blog (retrieve-blog blog-name)))
     (render-blog blog)))
 
 (defun about ()
+  "Handler for /about"
   (let ((blog (render-blog (retrieve-blog "about"))))
     blog))
 
 (defun handlers (&rest handlers)
+  "Helper method to push N handlers into the dispatch table with a
+  nicer syntax than the built-in one."
   (dolist (handler handlers)
     (push handler hunchentoot:*dispatch-table*)))
 
