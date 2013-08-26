@@ -11,5 +11,5 @@
 
 (deftemplate blog "blog.html")
 (deftemplate not-found "404.html")
-(deftemplate blog-mode "blog-mode.html")
+(deftemplate blogmode "blog-mode.html")
 (deftemplate index "base.html")
