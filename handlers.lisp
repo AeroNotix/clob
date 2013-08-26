@@ -74,7 +74,10 @@
   "Handler for /blog/something/"
   (let* ((blog-name (extract-blog-title (hunchentoot:request-uri* hunchentoot:*request*)))
          (blog (retrieve-blog blog-name)))
-    (render-blog blog)))
+    (if blog
+	(render-blog blog)
+	(get-output-stream-string (clob-templates:blog :blog_title "404"
+						       :blog_post "Entry not found.")))))
 
 (defun blog-list ()
   "Handler for /blog/"
