@@ -67,13 +67,18 @@
          (blog (retrieve-blog blog-name)))
     (render-blog blog)))
 
+(defun about ()
+  (let ((blog (render-blog (retrieve-blog "about"))))
+    blog))
+
 (defun handlers (&rest handlers)
   (dolist (handler handlers)
     (push handler hunchentoot:*dispatch-table*)))
 
 (handlers
  (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]+/?$" 'blog-entry)
- (hunchentoot:create-regex-dispatcher "/blog/?$" #'(lambda () "<html><h3>B</h3></html>")))
+ (hunchentoot:create-regex-dispatcher "/about/?$" 'about)
+ (hunchentoot:create-regex-dispatcher "/blog/?$" #'(lambda () "<html><h3>B</h3></html>"))
  (static-file-handler "/home/xeno/dev/clob/static/"))
 
 (clsql:locally-disable-sql-reader-syntax)
