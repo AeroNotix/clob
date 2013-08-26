@@ -80,6 +80,16 @@
          (blog (retrieve-blog blog-name)))
     (render-blog blog)))
 
+(defun blog-list ()
+  "Handler for /blog/"
+  (let* ((blogs (with-db db
+                 (clsql:select '|blog-entry| :database db)))
+         (blog-data-list (loop for blog in blogs
+                               collect (list :blog_title (slot-value (first blog) 'blog-title)
+                                             :date (slot-value (first blog) 'date)
+                                             :blog_url (slot-value (first blog) 'blog-url)))))
+    (get-output-stream-string (clob-templates:blogmode :blog blog-data-list))))
+
 (defun about ()
   "Handler for /about"
   (let ((blog (render-blog (retrieve-blog "about"))))
@@ -94,7 +104,7 @@
 (handlers
  (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]+/?$" 'blog-entry)
  (hunchentoot:create-regex-dispatcher "/about/?$" 'about)
- (hunchentoot:create-regex-dispatcher "/blog/?$" #'(lambda () "<html><h3>B</h3></html>"))
+ (hunchentoot:create-regex-dispatcher "/blog/?$" 'blog-list)
  (static-file-handler "/home/xeno/dev/clob/static/"))
 
 (clsql:locally-disable-sql-reader-syntax)
