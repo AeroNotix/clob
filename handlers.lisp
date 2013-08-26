@@ -46,10 +46,6 @@
                          :pool t :if-exists :use)
      ,@body))
 
-(hunchentoot:define-easy-handler (index :uri "/") ()
-  (setf (hunchentoot:content-type*) "text/html")
-  "<html><h3>Not implemented</h3></html>")
-
 (defun static-file-handler (where &key (uri "/static/") (content-type nil))
   (hunchentoot:create-folder-dispatcher-and-handler uri where content-type))
 
