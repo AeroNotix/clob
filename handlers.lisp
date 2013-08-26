@@ -42,8 +42,8 @@
   "This macro helps interpolate forms into a blog which is sure to
   contain a reference to a live database connection."
   `(clsql:with-database (,database *connection-details*
-				   :database-type *database-type*
-				   :pool t :if-exists :use)
+                         :database-type *database-type*
+                         :pool t :if-exists :use)
      ,@body))
 
 (hunchentoot:define-easy-handler (index :uri "/") ()
@@ -64,15 +64,15 @@
 (defun retrieve-blog (blog-name)
   "Retrieves the blog-name from the database."
   (first (first (with-db db
-	   (clsql:select '|blog-entry| :database db
-			 :where [= [slot-value '|blog-entry| 'blog-url]
-			 blog-name])))))
+                  (clsql:select '|blog-entry| :database db
+                                              :where [= [slot-value '|blog-entry| 'blog-url]
+                                              blog-name])))))
 
 (defun render-blog (blog)
   "Renders the blog by interpolating its fields into the template."
   (let ((string-stream (with-slots (blog-title blog-post) blog
                          (clob-templates:blog :blog_title blog-title :blog_post blog-post))))
-  (get-output-stream-string string-stream)))
+    (get-output-stream-string string-stream)))
 
 (defun blog-entry ()
   "Handler for /blog/something/"
@@ -83,7 +83,7 @@
 (defun blog-list ()
   "Handler for /blog/"
   (let* ((blogs (with-db db
-                 (clsql:select '|blog-entry| :database db)))
+                  (clsql:select '|blog-entry| :database db)))
          (blog-data-list (loop for blog in blogs
                                collect (list :blog_title (slot-value (first blog) 'blog-title)
                                              :date (slot-value (first blog) 'date)
