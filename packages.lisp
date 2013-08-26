@@ -3,7 +3,7 @@
 
 (defpackage #:clob-templates
   (:use #:cl #:djula)
-  (:export :render-blog :blog :not-found :blog-mode))
+  (:export :render-blog :blog :not-found :blogmode))
 
 (defpackage #:clob-connection-details
   (:use #:cl)
