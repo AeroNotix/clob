@@ -6,11 +6,11 @@
   "Starts the web application."
   (hunchentoot:start (make-instance 'hunchentoot:easy-acceptor :port 4242)))
 
+;; '|blog-entry| represents a single entry in the blog database. We
+;; unfortunately have to use |symbol| because of how cl-sql works: It
+;; requires that symbols (note: no |) are uppercased field names in
+;; the database, same goes for the table names.
 (clsql-sys:def-view-class |blog-entry| ()
-  "|blog-entry| represents a single entry in the blog database. We
-  unfortunately have to use |symbol| because of how cl-sql works: It
-  requires that symbols (note: no |) are uppercased field names in the
-  database, same goes for the table names."
   ((id
     :type integer
     :column |id|
