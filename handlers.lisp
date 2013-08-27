@@ -75,7 +75,10 @@
   "Handler for /blog/something/"
   (let* ((blog-name (extract-blog-title (hunchentoot:request-uri* hunchentoot:*request*)))
          (blog (retrieve-blog blog-name)))
-    (render-blog blog)))
+    (if blog
+	(render-blog blog)
+	(get-output-stream-string (clob-templates:blog :blog_title "404"
+						       :blog_post "Entry not found.")))))
 
 (defun blog-list ()
   "Handler for /blog/"
@@ -102,10 +105,10 @@
     (push handler hunchentoot:*dispatch-table*)))
 
 (handlers
- (hunchentoot:create-regex-dispatcher "/blog/[A-Za-z0-9\-]+/?$" 'blog-entry)
- (hunchentoot:create-regex-dispatcher "/about/?$" 'about)
- (hunchentoot:create-regex-dispatcher "/blog/?$" 'blog-list)
- (hunchentoot:create-regex-dispatcher "/?$" 'index)
+ (hunchentoot:create-regex-dispatcher "^/blog/?$" 'blog-list)
+ (hunchentoot:create-regex-dispatcher "^/blog/[A-Za-z0-9\-]+/?$" 'blog-entry)
+ (hunchentoot:create-regex-dispatcher "^/about/?$" 'about)
+ (hunchentoot:create-regex-dispatcher "^/$" 'index)
  (static-file-handler "/home/xeno/dev/clob/static/"))
 
 (clsql:locally-disable-sql-reader-syntax)
